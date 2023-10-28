@@ -1,0 +1,214 @@
+[gd_scene load_steps=5 format=3 uid="uid://bftyejaj6ends"]
+
+[ext_resource type="Script" path="res://Scripts/p2tx_manager.gd" id="1_poq1c"]
+[ext_resource type="Script" path="res://Scripts/ui_control.gd" id="3_fy150"]
+[ext_resource type="Script" path="res://Scripts/overlay_controller.gd" id="4_64w25"]
+[ext_resource type="Theme" uid="uid://cisso3yy8b8nr" path="res://Style/theme.tres" id="5_3s2d7"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Overlay Controller" type="Node" parent="." node_paths=PackedStringArray("P2TX_Manager", "Screen_container")]
+script = ExtResource("4_64w25")
+P2TX_Manager = NodePath("../P2TX Manager")
+Screen_container = NodePath("../CanvasLayer/Control/MarginContainer/VBoxContainer/ScreenContainer")
+
+[node name="P2TX Manager" type="Node" parent="."]
+script = ExtResource("1_poq1c")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Control" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("overlay", "stream_vo", "stream_bgm")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.95, 0.95)
+theme = ExtResource("5_3s2d7")
+script = ExtResource("3_fy150")
+overlay = NodePath("../../Overlay Controller")
+stream_vo = NodePath("../../VO-Stream")
+stream_bgm = NodePath("../../BGM-Stream")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -364.5
+offset_right = 336.0
+offset_bottom = 364.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer"]
+layout_mode = 2
+
+[node name="FilePanel" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="FileVisual" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel"]
+layout_mode = 2
+theme_override_constants/separation = -6
+alignment = 1
+
+[node name="OpenPGM" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileVisual"]
+layout_mode = 2
+text = "Open Textures (*.pgm)"
+
+[node name="OpenDAT" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileVisual"]
+layout_mode = 2
+text = "Open Overlays (*.dat)"
+
+[node name="FileAudio" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel"]
+layout_mode = 2
+theme_override_constants/separation = -6
+alignment = 1
+
+[node name="OpenBGM" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileAudio"]
+layout_mode = 2
+text = "Open BGM Track (*.wav)"
+
+[node name="OpenVO" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileAudio"]
+layout_mode = 2
+text = "Open Voice Track (*.wav)"
+
+[node name="ScreenContainer" type="Control" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+clip_contents = true
+custom_minimum_size = Vector2(640, 480)
+layout_mode = 2
+
+[node name="BG" type="ColorRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/ScreenContainer"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.152941, 0.0352941, 0.239216, 1)
+
+[node name="OverlayPanel" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Timeline" type="HSlider" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel"]
+layout_mode = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="FrameLabel" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+text = "Current Frame: 000000 "
+
+[node name="CurrentOverlay" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="CurrOvLabel" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer/CurrentOverlay"]
+layout_mode = 2
+text = "Current Overlay Group:"
+
+[node name="OverGroupSpin" type="SpinBox" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer/CurrentOverlay"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 1.0
+value = 1.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="VOCheck" type="CheckButton" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "VO Audio"
+
+[node name="BGMCheck" type="CheckButton" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+button_pressed = true
+text = "BGM Audio"
+
+[node name="RunningCheck" type="CheckButton" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Playback"
+
+[node name="ColorPickOpen" type="Button" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Background Color"
+
+[node name="FileDialog" type="FileDialog" parent="CanvasLayer/Control"]
+mode = 2
+title = "Open a File"
+initial_position = 2
+size = Vector2i(623, 500)
+popup_window = true
+min_size = Vector2i(200, 200)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="ColorPicker" type="ColorPicker" parent="CanvasLayer/Control"]
+visible = false
+layout_mode = 0
+offset_left = 106.316
+offset_top = -45.2632
+offset_right = 396.316
+offset_bottom = 332.737
+scale = Vector2(0.7, 0.7)
+alignment = 1
+color = Color(0.152941, 0.0352941, 0.239216, 1)
+edit_alpha = false
+can_add_swatches = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="BGM-Stream" type="AudioStreamPlayer" parent="."]
+
+[node name="VO-Stream" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileVisual/OpenPGM" to="CanvasLayer/Control" method="_on_open_pgm_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileVisual/OpenDAT" to="CanvasLayer/Control" method="_on_open_dat_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileAudio/OpenBGM" to="CanvasLayer/Control" method="_on_open_bgm_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/FilePanel/FileAudio/OpenVO" to="CanvasLayer/Control" method="_on_open_vo_pressed"]
+[connection signal="drag_ended" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/Timeline" to="CanvasLayer/Control" method="_on_h_slider_drag_ended"]
+[connection signal="drag_started" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/Timeline" to="CanvasLayer/Control" method="_on_h_slider_drag_started"]
+[connection signal="value_changed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer/CurrentOverlay/OverGroupSpin" to="CanvasLayer/Control" method="_on_over_group_spin_value_changed"]
+[connection signal="toggled" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2/VOCheck" to="CanvasLayer/Control" method="_on_vo_check_toggled"]
+[connection signal="toggled" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2/BGMCheck" to="CanvasLayer/Control" method="_on_bgm_check_toggled"]
+[connection signal="toggled" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2/RunningCheck" to="CanvasLayer/Control" method="_on_check_button_toggled"]
+[connection signal="pressed" from="CanvasLayer/Control/MarginContainer/VBoxContainer/OverlayPanel/HBoxContainer2/ColorPickOpen" to="CanvasLayer/Control" method="_on_colpick_pressed"]
+[connection signal="file_selected" from="CanvasLayer/Control/FileDialog" to="CanvasLayer/Control" method="_on_file_dialog_file_selected"]
+[connection signal="color_changed" from="CanvasLayer/Control/ColorPicker" to="CanvasLayer/Control" method="_on_color_changed"]
